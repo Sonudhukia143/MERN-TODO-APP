@@ -91,24 +91,24 @@ const Dashboard = () => {
     }
 
     return (
-        <div className="dashboard">
-            <header className="dashboard-header">
-                <h1 className="dashboard-title">Collaborative Task Board</h1>
-                <div className="user-info">
-                    <span className="username">Welcome, {user?.username}!</span>
-                    <button onClick={logout} className="logout-button">Logout</button>
+        <div className="dashRootXyz">
+            <header className="dashHdrAbc">
+                <h1 className="dashTitleQwe">Collaborative Task Board</h1>
+                <div className="userInfoRty">
+                    <span className="userNameUio">Welcome, {user?.username}!</span>
+                    <button onClick={logout} className="logoutBtnPlo">Logout</button>
                 </div>
             </header>
 
-            <div className="dashboard-content">
-                <div className="board-section">
+            <div className="dashContentAsd">
+                <div className="boardSectionZxc">
                     <KanbanBoard
                         tasks={tasks}
                         onConflict={handleConflict}
                     />
                 </div>
 
-                <div className="activity-section">
+                <div className="activitySectionVbn">
                     <ActivityLog actions={actions} />
                 </div>
             </div>
