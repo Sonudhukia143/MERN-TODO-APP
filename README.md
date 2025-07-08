@@ -7,15 +7,24 @@ The below project is the **Full Stack Collaborative Real-Time To-Do Board** I wa
 
 ---
 
-## 🚀 Frontend Logic, URLs, and Setup
+## 🎥 Live voiceover Video previe
+- **Google Drive:** 
+### 🔗 Video Link
+👉 [Video Google Drive](https://dotasker.netlify.addurlshere)
 
+
+##  👩‍💻 Tech Used
+- **Frontend:** React with Vite and Socket.io
+- **Backend:** Express , Mongo and Socket.io
+
+## 🚀 Frontend Logic, URLs, and Setup
 - **Frontend Deployment:** Hosted on **Netlify**  
 - **Responsiveness:** Fully responsive on all screen sizes  
 - **Theme:** Dark Mode  
 - **Design:** Fully custom, without any UI library  
 
 ### 🔗 Live URL (Frontend)  
-👉 [Deployed Frontend Link](https://dotasker.netlify.app/register)
+👉 [Deployed Frontend Link](https://dotasker.netlify.app)
 
 ---
 

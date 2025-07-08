@@ -250,7 +250,6 @@ router.post('/:id/smart-assign', auth, async (req, res) => {
         task.assignedTo = selectedUser.user._id;
         task.lastEditedBy = req.user._id;
         task.version += 1;
-
         await task.save();
 
         // Update user counts

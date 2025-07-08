@@ -8,8 +8,7 @@ const router = express.Router();
 router.get('/', auth, async (req, res) => {
     try {
         const actions = await Action.find()
-            .populate('userId', 'username')
-            .populate('taskId', 'title')
+            .populate('userId', 'username','taskId','title')
             .sort('-timestamp')
             .limit(20);
 
