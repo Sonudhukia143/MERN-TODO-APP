@@ -11,27 +11,19 @@ router.post('/register', async (req, res) => {
     try {
         const { username, email, password } = req.body;
 
-        // Validation
-        if (!username || !email || !password) {
-            return res.status(400).json({ error: 'All fields are required' });
-        }
+        // checks for presence of all fields
+        if (!username || !email || !password) return res.status(400).json({ error: 'All fields are required' });        
 
-        // Check if user exists
-        const emailExists = await User.findOne({ email });
-        if (emailExists) {
-            return res.status(400).json({ error: 'Email already exists' });
-        }
-
-        const usernameExists = await User.findOne({ username });
-        if (usernameExists) {
-            return res.status(400).json({ error: 'Username already exists' });
-        }
-
-        // Hash password
+        // Check if user or email exists in the database
+        const userEmail = await User.findOne({ email });        
+        const userUsername = await User.findOne({ username });
+        if (userUsername || userEmail) return res.status(400).json({ error: 'Username or email already exists in the database.' });
+        
+        // Hash password using bcrypt
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // Create user
+        // Create user in the database using the User model
         const user = new User({
             username,
             email,
@@ -39,15 +31,16 @@ router.post('/register', async (req, res) => {
         });
 
         const savedUser = await user.save();
+        if(!savedUser) return res.status(400).json({ error: 'Failed to create user in the database.' });
 
         // Create token
-        const token = jwt.sign(
+        const jwtToken = jwt.sign(
             { _id: savedUser._id, username: savedUser.username },
             process.env.JWT_SECRET
         );
 
-        res.status(201).json({
-            token,
+        return res.status(201).json({
+            token: jwtToken,
             user: {
                 id: savedUser._id,
                 username: savedUser.username,
@@ -55,7 +48,7 @@ router.post('/register', async (req, res) => {
             }
         });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 });
 
@@ -64,31 +57,27 @@ router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Validation
-        if (!email || !password) {
-            return res.status(400).json({ error: 'All fields are required' });
-        }
-
-        // Check if user exists
+        // Validation checks for presence of all fields
+        if (!email || !password) return res.status(400).json({ error: 'All fields are required' });
+        
+        // Check if user exists in the database
         const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(400).json({ error: 'Invalid credentials' });
-        }
+        if (!user) return res.status(400).json({ error: 'No user found with this email' });
+        
 
-        // Validate password
+        // Validate password using bcrypt
         const validPassword = await bcrypt.compare(password, user.password);
-        if (!validPassword) {
-            return res.status(400).json({ error: 'Invalid credentials' });
-        }
+        if (!validPassword) return res.status(400).json({ error: 'Password is incorrect' });
+        
 
-        // Create token
-        const token = jwt.sign(
+        // Create token using jwt
+        const jwtToken = jwt.sign(
             { _id: user._id, username: user.username },
             process.env.JWT_SECRET
         );
 
-        res.json({
-            token,
+        return res.status(200).json({
+            token: jwtToken,
             user: {
                 id: user._id,
                 username: user.username,
@@ -96,24 +85,24 @@ router.post('/login', async (req, res) => {
             }
         });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 });
 
 // Verify token
 router.get('/verify', async (req, res) => {
     const token = req.header('Authorization')?.replace('Bearer ', '');
-
-    if (!token) {
-        return res.status(401).json({ error: 'No token provided' });
-    }
-
+    if (!token) return res.status(401).json({ error: 'No token provided' });
+    
     try {
         const verified = jwt.verify(token, process.env.JWT_SECRET);
+        if(!verified) return res.status(400).json({ error: 'Invalid token unverified' });
         const user = await User.findById(verified._id).select('-password');
-        res.json({ user });
+        if(!user) return res.status(400).json({ error: 'User not found' });
+
+        return res.json({ user });
     } catch (error) {
-        res.status(400).json({ error: 'Invalid token' });
+        return res.status(400).json({ error: error.message });
     }
 });
 
@@ -121,9 +110,9 @@ router.get('/verify', async (req, res) => {
 router.get('/users', auth, async (req, res) => {
   try {
     const users = await User.find().select('_id username email');
-    res.json(users);
+    return res.json(users);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 

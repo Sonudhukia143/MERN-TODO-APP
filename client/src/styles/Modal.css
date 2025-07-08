@@ -205,10 +205,10 @@
 }
 
 .version-section {
-    border: 1px solid #23232b;
-    border-radius: 10px;
-    padding: 1rem;
     background: #18181b;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid #23232b;
 }
 
 .version-section h3 {
@@ -232,12 +232,13 @@
 }
 
 .change-key {
-    font-weight: 600;
     color: #b3b3b3;
+    font-weight: 500;
 }
 
 .change-value {
     color: #fff;
+    font-weight: 400;
     text-align: right;
     max-width: 60%;
     word-break: break-word;
@@ -246,7 +247,8 @@
 /* Responsive */
 @media (max-width: 768px) {
     .modal-content {
-        max-width: 98vw;
+        width: 95%;
+        max-width: none;
         padding: 0.5rem;
     }
 
@@ -264,7 +266,6 @@
     .modal-actions {
         flex-direction: column;
         gap: 0.7rem;
-        padding: 1rem;
     }
 
     .modal-actions button {
