@@ -1,0 +1,165 @@
+/* Global Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    background: linear-gradient(135deg, #000 0%, #18181b 100%);
+    color: #f3f3f3;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 0.01em;
+    transition: background 0.3s, color 0.3s;
+    overflow-x: hidden;
+}
+
+.app {
+    min-height: 100vh;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header with logo */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #0E0E10;
+    padding: 1.5rem 2.5rem 1.5rem 2.5rem;
+    box-shadow: 0 4px 32px 0 rgba(0,0,0,0.7);
+    border-bottom: 1.5px solid rgba(255,255,255,0.04);
+    z-index: 10;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-logo .logo-icon {
+    font-size: 2.2rem;
+    color: #fff;
+    filter: drop-shadow(0 0 8px #fff2);
+}
+
+.header-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #fff;
+}
+
+.header-user {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    font-size: 1rem;
+    color: #e0e0e0;
+}
+
+.header-user .logout-button {
+    background: #18181b;
+    color: #fff;
+    border: 1px solid #23232b;
+    border-radius: 8px;
+    padding: 0.5rem 1.2rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.header-user .logout-button:hover {
+    background: #23232b;
+    color: #00ffe7;
+    border: 1px solid #00ffe7;
+}
+
+/* Main content area */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    gap: 2.5rem;
+    padding: 2.5rem 2.5rem 2.5rem 1.5rem;
+    background: transparent;
+}
+
+/* Vertical accent bar for board */
+.accent-bar {
+    width: 8px;
+    background: linear-gradient(180deg, #00ffe7 0%, #0E0E10 100%);
+    border-radius: 8px;
+    margin-right: 2rem;
+    box-shadow: 0 0 16px #00ffe744;
+}
+
+section, .section-box, .panel, .card, .activity-log, .kanban-board, .modal-content {
+    background: #0E0E10 !important;
+    color: #f3f3f3;
+    border-radius: 18px;
+    box-shadow: 0 4px 32px 0 rgba(0,0,0,0.7), 0 1.5px 0 0 #23232b;
+    border: 1px solid rgba(255,255,255,0.04);
+}
+
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 1.2rem;
+    color: #b3b3b3;
+}
+
+.loading-spinner::after {
+    content: '';
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+    border: 3px solid #23232b;
+    border-top: 3px solid #00ffe7;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    background: #18181b;
+}
+::-webkit-scrollbar-thumb {
+    background: #23232b;
+    border-radius: 8px;
+}
+
+@media (max-width: 900px) {
+    .main-content {
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 1.2rem;
+    }
+    .header {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.2rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .header {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0.7rem;
+    }
+    .main-content {
+        padding: 0.5rem;
+    }
+}
