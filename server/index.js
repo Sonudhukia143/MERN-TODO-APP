@@ -69,6 +69,9 @@ connectDB();
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/actions', actionRoutes);
+app.get('/api/test', (req, res) => {
+    res.send('Server is running');
+});
 
 // Socket.IO
 socketHandlers(io);
