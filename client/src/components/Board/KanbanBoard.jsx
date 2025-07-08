@@ -59,15 +59,20 @@ const KanbanBoard = ({ tasks, onConflict }) => {
 
     const handleSaveTask = async (taskData) => {
         try {
+            console.log("Saving task", editingTask);
+
             if (editingTask) {
+                console.log("Saving task controller running");
                 const response = await api.put(`/tasks/${editingTask._id}`, {
                     ...taskData,
                     version: editingTask.version
                 });
                 setShowTaskModal(false);
+                return;
             } else {
                 await api.post('/tasks', taskData);
                 setShowTaskModal(false);
+                return;
             }
         } catch (error) {
             if (error.response?.status === 409) {
@@ -77,6 +82,7 @@ const KanbanBoard = ({ tasks, onConflict }) => {
                     yourChanges: taskData
                 });
                 setShowTaskModal(false);
+                return;
             } else {
                 alert(error.response?.data?.error || 'Error saving task');
             }
@@ -86,7 +92,9 @@ const KanbanBoard = ({ tasks, onConflict }) => {
     const handleDeleteTask = async (taskId) => {
         if (window.confirm('Are you sure you want to delete this task?')) {
             try {
-                await api.delete(`/tasks/${taskId}`);
+                const response = await api.delete(`/tasks/${taskId}`);
+                console.log("Response", response);
+                return;
             } catch (error) {
                 alert('Error deleting task');
             }
@@ -111,7 +119,7 @@ const KanbanBoard = ({ tasks, onConflict }) => {
             </div>
 
             <DragDropContext onDragEnd={onDragEnd}>
-                <div className="columns-container">
+                <div className="columns-container" style={{ overflowX: 'scroll' }}>
                     {Object.values(columns).map(column => (
                         <Droppable key={column.id} droppableId={column.id}>
                             {(provided, snapshot) => (

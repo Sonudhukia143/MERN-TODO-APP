@@ -181,10 +181,10 @@ router.delete('/:id', auth, async (req, res) => {
         const task = await Task.findById(req.params.id);
         if (!task) return res.status(404).json({ error: 'Task not found' });
         
-
         // Update user task count if assigned and not done
         if (task.assignedTo && task.status !== 'Done') await User.findByIdAndUpdate(task.assignedTo, { $inc: { activeTasksCount: -1 } });
-        
+
+
         // Log action before deletion
         await new Action({
             userId: req.user._id,
@@ -193,7 +193,7 @@ router.delete('/:id', auth, async (req, res) => {
             details: { title: task.title }
         }).save();
 
-        await task.remove();
+        await Task.findByIdAndDelete(req.params.id);
 
         // Emit socket event
         const io = req.app.get('io');
@@ -209,6 +209,7 @@ router.delete('/:id', auth, async (req, res) => {
 
         return res.json({ message: 'Task deleted successfully' });
     } catch (error) {
+        console.log("Error deleting task", error);
         return res.status(500).json({ error: error.message });
     }
 });

@@ -1,11 +1,11 @@
-.dashRootXyz {
+.outer-div {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     background: transparent;
 }
 
-.dashHdrAbc {
+.header-div {
     background: #0E0E10;
     color: #fff;
     padding: 2rem 2.5rem 1.5rem 2.5rem;
@@ -19,7 +19,7 @@
     z-index: 5;
 }
 
-.dashTitleQwe {
+.heading-title {
     font-size: 2rem;
     font-weight: 700;
     letter-spacing: 0.04em;
@@ -27,19 +27,19 @@
     text-shadow: 0 2px 8px #00ffe733;
 }
 
-.userInfoRty {
+.user-info-div {
     display: flex;
     align-items: center;
     gap: 1.5rem;
 }
 
-.userNameUio {
+.user-name {
     font-size: 1.1rem;
     color: #e0e0e0;
     font-weight: 500;
 }
 
-.logoutBtnPlo {
+.logout-btn {
     padding: 0.5rem 1.5rem;
     background: #18181b;
     color: #fff;
@@ -52,13 +52,13 @@
     box-shadow: 0 2px 8px #00ffe722;
 }
 
-.logoutBtnPlo:hover {
+.logout-btn:hover {
     background: #23232b;
     color: #00ffe7;
     border: 1px solid #00ffe7;
 }
 
-.dashContentAsd {
+.main-content-div {
     flex: 1;
     display: flex;
     padding: 2.5rem 2.5rem 2.5rem 0;
@@ -67,13 +67,13 @@
     background: transparent;
 }
 
-.boardSectionZxc {
+.task-board-div {
     flex: 1;
     min-width: 0;
     background: transparent;
 }
 
-.activitySectionVbn {
+.activity-section {
     width: 350px;
     flex-shrink: 0;
     background: transparent;
@@ -81,34 +81,34 @@
 
 /* Responsive */
 @media (max-width: 1200px) {
-    .dashContentAsd {
+    .main-content-div {
         flex-direction: column;
         overflow-y: auto;
         gap: 1.5rem;
     }
 
-    .activitySectionVbn {
+    .activity-section {
         width: 100%;
     }
 }
 
 @media (max-width: 768px) {
-    .dashHdrAbc {
+    .main-content-div {
         flex-direction: column;
         gap: 1rem;
         padding: 1.2rem;
     }
 
-    .dashTitleQwe {
+    .heading-title {
         font-size: 1.5rem;
     }
 
-    .userInfoRty {
+    .user-info-div {
         width: 100%;
         justify-content: space-between;
     }
 
-    .dashContentAsd {
+    .logout-btn {
         padding: 1rem 0.5rem;
     }
 }

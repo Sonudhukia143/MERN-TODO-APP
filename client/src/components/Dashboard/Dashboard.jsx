@@ -55,8 +55,6 @@ const Dashboard = () => {
         };
     }, [socket]);
 
-    console.log("Dashboard is running");
-
     async function fetchInitialData () {
         try {
             const [tasksRes, actionsRes] = await Promise.all([
@@ -91,24 +89,24 @@ const Dashboard = () => {
     if (loading) return <div className="loading-spinner">Loading dashboard...</div>;
 
     return (
-        <div className="dashRootXyz">
-            <header className="dashHdrAbc">
-                <h1 className="dashTitleQwe">Collaborative Task Board</h1>
-                <div className="userInfoRty">
-                    <span className="userNameUio">Welcome, {user?.username}!</span>
-                    <button onClick={logout} className="logoutBtnPlo">Logout</button>
+        <div className="outer-div">
+            <header className="header-div">
+                <h1 className="heading-title">Collaborative Task Board</h1>
+                <div className="user-info-div">
+                    <span className="user-name">Welcome, {user?.username}!</span>
+                    <button onClick={logout} className="logout-btn">Logout</button>
                 </div>
             </header>
 
-            <div className="dashContentAsd">
-                <div className="boardSectionZxc">
+            <div className="main-content-div">
+                <div className="task-board-div">
                     <KanbanBoard
                         tasks={tasks}
                         onConflict={handleConflict}
                     />
                 </div>
 
-                <div className="activitySectionVbn">
+                <div className="activity-section">
                     <ActivityLog actions={actions} />
                 </div>
             </div>
