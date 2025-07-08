@@ -55,7 +55,9 @@ const Dashboard = () => {
         };
     }, [socket]);
 
-    const fetchInitialData = async () => {
+    console.log("Dashboard is running");
+
+    async function fetchInitialData () {
         try {
             const [tasksRes, actionsRes] = await Promise.all([
                 api.get('/tasks'),
@@ -86,9 +88,7 @@ const Dashboard = () => {
         setConflictData(null);
     };
 
-    if (loading) {
-        return <div className="loading-spinner">Loading dashboard...</div>;
-    }
+    if (loading) return <div className="loading-spinner">Loading dashboard...</div>;
 
     return (
         <div className="dashRootXyz">
