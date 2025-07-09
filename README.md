@@ -63,7 +63,9 @@ Note : The frontend will work fine even if you donot use or run backend as clien
   - Conflict resolution with merge/overwrite option
 
 ### 🔗 Live URL (Backend)  
-👉 [Deployed Backend API](https://to-do-task-manager.onrender.com)
+👉 [Deployed Backend API](https://to-do-task-manager.onrender.com/api/test)
+
+### Live backend url redirects to /api/test route which will tell you if backend is working fine rest of the routes can only be accessed thorugh postman for testing as all of them are either post , put , patch routes.
 
 ---
 
