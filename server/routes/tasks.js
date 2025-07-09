@@ -73,8 +73,9 @@ router.post('/', auth, async (req, res) => {
 // Update task
 router.put('/:id', auth, async (req, res) => {
     try {
-        const { title, description, status, priority, assignedTo, version } = req.body;
-        if(!title || !description || !status || !priority || !assignedTo || !version) return res.status(400).json({ error: 'All fields are required' });
+        const { title, description, status, priority, version , assignedTo } = req.body;
+        if(!title || !description || !status || !priority || !version) return res.status(400).json({ error: 'All fields are required' });
+        if(!assignedTo) return res.status(400).json({ error: 'Assign the task to a user' });
 
         const task = await Task.findById(req.params.id);
         if (!task) return res.status(404).json({ error: 'Task not found' });
@@ -171,6 +172,7 @@ router.put('/:id', auth, async (req, res) => {
 
         return res.json(populatedTask);
     } catch (error) {
+        console.log("Error updating task", error);
         return res.status(500).json({ error: error.message });
     }
 });

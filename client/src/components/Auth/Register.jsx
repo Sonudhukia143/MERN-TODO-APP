@@ -123,10 +123,6 @@ const Register = () => {
                         {loading ? 'Creating account...' : 'Register'}
                     </button>
                 </form>
-
-                <p className="auth-link">
-                    Already have an account? <Link to="/login">Login</Link>
-                </p>
             </div>
         </div>
     );

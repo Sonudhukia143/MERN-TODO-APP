@@ -59,13 +59,11 @@ const KanbanBoard = ({ tasks, onConflict }) => {
 
     const handleSaveTask = async (taskData) => {
         try {
-            console.log("Saving task", editingTask);
-
             if (editingTask) {
                 console.log("Saving task controller running");
                 const response = await api.put(`/tasks/${editingTask._id}`, {
                     ...taskData,
-                    version: editingTask.version
+                    version: editingTask.version,
                 });
                 setShowTaskModal(false);
                 return;
