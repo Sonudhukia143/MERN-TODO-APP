@@ -9,8 +9,8 @@ The below project is the **Full Stack Collaborative Real-Time To-Do Board** I wa
 
 ## 🎥 Live voiceover Video previe
 - **Google Drive:** 
-### 🔗 Video Link
-👉 [Video Google Drive](https://dotasker.netlify.addurlshere)
+### 🔗 Video Link (Public Anyone can access with the link)
+👉 [Video Google Drive](https://drive.google.com/file/d/1C7Ki38C34pu71qkcmV26__LGrCzZzmYS/view?usp=sharing)
 
 
 ##  👩‍💻 Tech Used
