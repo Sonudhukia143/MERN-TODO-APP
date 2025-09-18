@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { useSocket } from '../../contexts/SocketContext';
+import  { useState, useEffect } from 'react';
+import { useAuth } from '../../contexts/AuthContextUtil';
+import { useSocket } from '../../contexts/SocketContextUtil';
 import KanbanBoard from '../Board/KanbanBoard';
 import ActivityLog from '../ActivityLog/ActivityLog';
 import ConflictModal from '../Modals/ConflictModal';

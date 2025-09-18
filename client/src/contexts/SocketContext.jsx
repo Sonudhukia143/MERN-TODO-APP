@@ -1,10 +1,8 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import io from 'socket.io-client';
-import { useAuth } from './AuthContext';
+import { useAuth } from './AuthContextUtil';
 
 const SocketContext = createContext();
-
-export const useSocket = () => useContext(SocketContext);
 
 export const SocketProvider = ({ children }) => {
     const [socket, setSocket] = useState(null);
@@ -13,7 +11,7 @@ export const SocketProvider = ({ children }) => {
 
     useEffect(() => {
         if (token) {
-            const newSocket = io(import.meta.env.VITE_BACKEND_URL, {
+            const newSocket = io(import.meta.env.VITE_BACKEND_URL_SOCKET, {
                 auth: { token }
             });
 
@@ -47,4 +45,5 @@ export const SocketProvider = ({ children }) => {
     );
 };
 
+export {SocketContext};
 //https://to-do-task-manager.onrender.com

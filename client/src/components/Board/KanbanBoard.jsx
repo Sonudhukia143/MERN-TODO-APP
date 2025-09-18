@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import Column from './Column';
 import TaskModal from '../Modals/TaskModal';
-import { useSocket } from '../../contexts/SocketContext';
+import { useSocket } from '../../contexts/SocketContextUtil';
 import api from '../../services/api';
 import '../../styles/Board.css';
 

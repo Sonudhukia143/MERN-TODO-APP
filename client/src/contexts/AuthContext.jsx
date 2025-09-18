@@ -1,9 +1,7 @@
-import { createContext, useState, useContext, useEffect } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import api from '../services/api';
 
 const AuthContext = createContext();
-
-export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
@@ -13,23 +11,23 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         if (token) {
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            verifyToken();
+            const verifyToken = async () => {
+                try {
+                    const response = await api.get('/auth/verify');
+                    setUser(response.data.user);
+                } catch (error) {
+                    console.error('Token verification failed:', error);
+                    logout();
+                } finally {
+                    setLoading(false);
+                }
+            };
+            verifyToken()
+
         } else {
             setLoading(false);
         }
     }, [token]);
-
-    const verifyToken = async () => {
-        try {
-            const response = await api.get('/auth/verify');
-            setUser(response.data.user);
-        } catch (error) {
-            console.error('Token verification failed:', error);
-            logout();
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const login = async (email, password) => {
         try {
@@ -93,3 +91,5 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     );
 };
+
+export { AuthContext }

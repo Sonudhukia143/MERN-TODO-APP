@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import '../../styles/Board.css';
 
 const TaskCard = ({ task, provided, isDragging, onEdit, onDelete, onSmartAssign }) => {
