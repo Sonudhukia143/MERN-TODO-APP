@@ -1,0 +1,68 @@
+
+📲 Smart Assign Logic in my own words
+
+So smart assign logic implementation was one of my favourite and
+writing this it felt like a true coder. During creating this logic
+I was actually feeling like a true coder who thinks more and writes
+less.
+
+The smart assign route uses task id in the params to fetch the task and 
+then begins the logical layer of the route after some conditional checks
+
+1. Fetch all users from the database.
+
+2. Check who is free or under least work pressure. How ? let me tell you,
+first fetch all tasks which are not done and are assigned to users using user_Id.
+Do this by maping on the fetched all users array and return user and no. of their active tasks.
+Now, we have an array of users and their active tasks with us.
+
+3. Now, last step but most logical one we map on this array of users and their active tasks to find
+which user has lowest number of tasks which are active.
+We map over this array again until we find a user with lowest no. of active taks.
+
+4. Now what is left is to update the changes accurately so no conflicts occur.
+We change the task assignee and correct the new assignee if it was previously given to someone.
+update the version (it is used in conflict handling logic)
+update the edited by and add the newest editors ID.Finally, we decrement the
+number of assigned tasks to the previous user who was assigned the task before smart assign and
+increment the no of tasks of the new user.
+
+5. Create a new action and save it to database emit the realtime change to frontend
+using socket.io . At end we return the task by populating it  with new info.
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+🥷 Conflict handeling logic
+
+So , it was not that much straight forward as it was my first time implementing such type of logic 
+therefore, to be honest I used AI to know what trick to use.
+I have used version check method.
+
+Each task has a version feild when created with default and intial value 1
+and on each update it is incremented by 1.
+
+How does it work let us understand?
+
+Step1.
+A user visits site and logs in all tasks are fetched with a version number
+from database which is constant for all task and it is given in modal.
+At begining of creating a task the version number starts with 1.
+
+Step2.
+On each update the version number of the task is updated or incremented by 
+one and therefore if a user updates a task and another user tries to update the 
+same task without refetching the task the different version numbers will 
+generate an error of conflic (409).
+
+Lets understand it with an example 
+Suppose userA and userB visits a site at same time , then they get tasks fetched
+with same number of version numbers and now both of them click on edit a task and
+then they add some changes and both click save.
+Now is where the logic begins:
+One of their , lets say userA's task gets updated first and the version number is 
+increased by one and now when the userB with old data and old version number
+makes a request with old version number it gives and error that the 
+version number doesnot matches so this means the time userB is updating the
+task at that time he doesnot have the realtime or correct updated data 
+either he needs to referesh(not a good or user freindly option)
+or (merge or rewrite his changes (UI for these both have also been added)).
