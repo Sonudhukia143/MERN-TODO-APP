@@ -7,7 +7,7 @@ import auth from '../middleware/auth.js';
 const router = express.Router();
 
 // Register
-router.post('/register', async (req, res) => {
+router.post('/register', async (req, res) => {    
     try {
         const { username, email, password } = req.body;
 
@@ -29,9 +29,11 @@ router.post('/register', async (req, res) => {
             email,
             password: hashedPassword
         });
+        if(!user) return res.status(400).json({error:"Unable to create user."})
 
         const savedUser = await user.save();
-        if(!savedUser) return res.status(400).json({ error: 'Failed to create user in the database.' });
+        console.log(savedUser);
+        if(!savedUser) return res.status(400).json({ error: 'Failed to save user in the database.' });
 
         // Create token
         const jwtToken = jwt.sign(
@@ -48,6 +50,7 @@ router.post('/register', async (req, res) => {
             }
         });
     } catch (error) {
+        console.log(error);
         return res.status(500).json({ error: error.message });
     }
 });

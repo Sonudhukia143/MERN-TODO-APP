@@ -61,10 +61,10 @@ const KanbanBoard = ({ tasks, onConflict }) => {
         try {
             if (editingTask) {
                 console.log("Saving task controller running");
-                const response = await api.put(`/tasks/${editingTask._id}`, {
-                    ...taskData,
-                    version: editingTask.version,
-                });
+                await api.put(`/tasks/${editingTask._id}`, {
+                     ...taskData,
+                     version: editingTask.version,
+                 });
                 setShowTaskModal(false);
                 return;
             } else {
@@ -94,6 +94,7 @@ const KanbanBoard = ({ tasks, onConflict }) => {
                 console.log("Response", response);
                 return;
             } catch (error) {
+                console.log(error);
                 alert('Error deleting task');
             }
         }
@@ -103,6 +104,7 @@ const KanbanBoard = ({ tasks, onConflict }) => {
         try {
             await api.post(`/tasks/${taskId}/smart-assign`);
         } catch (error) {
+            console.log(error);
             alert('Error assigning task');
         }
     };

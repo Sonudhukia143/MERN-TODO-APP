@@ -16,7 +16,6 @@ const server = http.createServer(app);
 
 // CORS configuration - UPDATE THIS
 const allowedOrigins = [
-    'https://dotasker.netlify.app',
     'http://localhost:5173',
     process.env.CLIENT_URL
 ].filter(Boolean); // Remove any undefined values
@@ -53,10 +52,7 @@ const io = new socketIO(server, {
 
 const connectDB = async () => {
     try {
-        await mongoose.connect(process.env.MONGODB_URI,{
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        await mongoose.connect(process.env.MONGODB_URI);
         console.log('MongoDB connected');
     } catch (error) {
         console.error('MongoDB connection error:', error);

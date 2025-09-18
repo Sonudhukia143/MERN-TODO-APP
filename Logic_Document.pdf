@@ -11,7 +11,7 @@ then begins the logical layer of the route after some conditional checks
 
 1. Fetch all users from the database.
 
-2. Check who is free or under least work pressure.How ? let me tell you,
+2. Check who is free or under least work pressure. How ? let me tell you,
 first fetch all tasks which are not done and are assigned to users using user_Id.
 Do this by maping on the fetched all users array and return user and no. of their active tasks.
 Now, we have an array of users and their active tasks with us.

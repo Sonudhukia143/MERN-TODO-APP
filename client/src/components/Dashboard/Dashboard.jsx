@@ -36,7 +36,7 @@ const Dashboard = () => {
             setTasks(prev => prev.filter(task => task._id !== taskId));
         });
 
-        socket.on('task:moved', ({ task, oldStatus, newStatus }) => {
+        socket.on('task:moved', ({ task }) => {
             setTasks(prev => prev.map(t =>
                 t._id === task._id ? task : t
             ));

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "node index.js",
-     "build":"echo 'No build step necessary'"
+    "build": "echo 'No build step necessary'"
   },
   "keywords": [],
   "author": "",
