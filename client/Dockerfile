@@ -26,6 +26,9 @@ USER client
 # This is where the new container will serve the backend route
 EXPOSE 5173
 
+
+RUN [ "npm", "run", "build" ]
+
 # This is the command to start the server however RUN is used during build here the execution context stops
 CMD ["npm","run","dev"]
 

@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     port: 5173,
     host: true,
-    allowedHosts:['client-e3ad.onrender.com']
+    allowedHosts:['client-e3ad.onrender.com', 'localhost']
   },
   define: {
     global: 'globalThis',
