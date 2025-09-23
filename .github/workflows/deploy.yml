@@ -23,11 +23,11 @@ jobs:
         with:
           context: ./server
           push: true
-          tags: your-dockerhub-username/myapp-backend:latest
+          tags: sonudhukia143/backend
 
       - name: Build and push frontend
         uses: docker/build-push-action@v4
         with:
           context: ./client
           push: true
-          tags: your-dockerhub-username/myapp-frontend:latest
+          tags: sonudhukia143/client
