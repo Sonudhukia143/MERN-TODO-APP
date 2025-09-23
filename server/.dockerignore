@@ -1,11 +1,9 @@
-node_modules/
-
-.env
-
-package-lock.json
+node_modules
+.git
+npm-debug.log
 
 processed.txt
-
 isolate-0x206a7000-1381-v8.log
-
 20
+
+.env

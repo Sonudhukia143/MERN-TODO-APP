@@ -1,0 +1,17 @@
+services:
+  client:
+    build: ./client # spec path to Dockerfile
+    ports:
+      - 5173:5173  # map host port 5173 to container port 5173
+    environment:
+      VITE_BACKEND_URL: http://localhost:3000/api
+      VITE_BACKEND_URL_SOCKET: http://localhost:3000
+
+  server:
+    build: ./server
+    ports:
+      - 3000:3000
+    environment:
+      MONGODB_URI: mongodb+srv://jagdishdhukia770_db_user:TuWCeEQwxAww57OJ@cluster0.5v083se.mongodb.net/
+      JWT_SECRET: DFHJS23$329H3%f
+      CLIENT_URL: https://dotasker.netlify.app

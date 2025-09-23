@@ -9,12 +9,22 @@ const router = express.Router();
 // Get all tasks
 router.get('/', auth, async (req, res) => {
     try {
-        const tasks = await Task.find()
-            .populate('assignedTo', 'username email')
-            .populate('createdBy', 'username')
-            .populate('lastEditedBy', 'username')
-            .sort('-createdAt');
-        return res.json(tasks);
+        if (req.user.isAdmin) {
+            const tasks = await Task.find()
+                .populate('assignedTo', 'username email')
+                .populate('createdBy', 'username')
+                .populate('lastEditedBy', 'username')
+                .sort('-createdAt');
+            return res.json(tasks);
+        } else {
+            const tasks = await Task.find({ assignedTo: req.user._id })
+                .populate('assignedTo', 'username email')
+                .populate('createdBy', 'username')
+                .populate('lastEditedBy', 'username')
+                .sort('-createdAt');
+
+            return res.json(tasks);
+        }
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
@@ -28,7 +38,7 @@ router.post('/', auth, async (req, res) => {
         // Check if title already exists
         const existingTask = await Task.findOne({ title });
         if (existingTask) return res.status(400).json({ error: 'Task title must be unique' });
-        
+
         const task = new Task({
             title,
             description,
@@ -36,9 +46,12 @@ router.post('/', auth, async (req, res) => {
             createdBy: req.user._id,
             lastEditedBy: req.user._id
         });
-        if(!task) return res.status(400).json({ error: 'Failed to create task in the database.' });
+        if (!task) return res.status(400).json({ error: 'Failed to create task in the database.' });
 
         const savedTask = await task.save();
+        if (!savedTask) return res.status(400).json({ error: 'Failed to save task in the database.' });
+
+
         const populatedTask = await Task.findById(savedTask._id)
             .populate('assignedTo', 'username email')
             .populate('createdBy', 'username')
@@ -73,13 +86,14 @@ router.post('/', auth, async (req, res) => {
 // Update task
 router.put('/:id', auth, async (req, res) => {
     try {
-        const { title, description, status, priority, version , assignedTo } = req.body;
-        if(!title || !description || !status || !priority || !version) return res.status(400).json({ error: 'All fields are required' });
-        if(!assignedTo) return res.status(400).json({ error: 'Assign the task to a user' });
+        const { title, description, status, priority, version, assignedTo } = req.body;
+        if (!title || !description || !status || !priority || !version) return res.status(400).json({ error: 'All fields are required' });
+        if (!assignedTo) return res.status(400).json({ error: 'Assign the task to a user' });
 
         const task = await Task.findById(req.params.id);
+        console.log(task.createdBy._id.toString(), req.user._id);
+        if (!req.user.isAdmin && task.createdBy._id.toString() !== req.user._id) return res.status(403).json({ error: 'Access denied' });
         if (!task) return res.status(404).json({ error: 'Task not found' });
-        
 
         // Check version for conflict
         if (task.version !== version) {
@@ -137,7 +151,6 @@ router.put('/:id', auth, async (req, res) => {
         }).save();
 
         // Update user task counts if assignment changed
-        // Update user task counts if assignment changed
         if (changes.assignedTo) {
             if (task.status !== 'Done') {
                 if (changes.assignedTo.from) {
@@ -182,10 +195,10 @@ router.delete('/:id', auth, async (req, res) => {
     try {
         const task = await Task.findById(req.params.id);
         if (!task) return res.status(404).json({ error: 'Task not found' });
-        
+        if (!req.user.isAdmin && task.createdBy._id.toString() !== req.user._id) return res.status(403).json({ error: 'Access denied' });
+
         // Update user task count if assigned and not done
         if (task.assignedTo && task.status !== 'Done') await User.findByIdAndUpdate(task.assignedTo, { $inc: { activeTasksCount: -1 } });
-
 
         // Log action before deletion
         await new Action({
@@ -221,6 +234,8 @@ router.post('/:id/smart-assign', auth, async (req, res) => {
     try {
         const task = await Task.findById(req.params.id);
         if (!task) return res.status(404).json({ error: 'Task not found' });
+
+        if (!req.user.isAdmin) return res.status(403).json({ error: 'Access denied' });
 
         // Get all users with their active task counts
         const users = await User.find().sort('username');

@@ -1,6 +1,7 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import api from '../../services/api';
 import '../../styles/Modal.css';
+import { useAuth } from '../../contexts/AuthContextUtil';
 
 const TaskModal = ({ task, onSave, onClose }) => {
     const [formData, setFormData] = useState({
@@ -13,6 +14,8 @@ const TaskModal = ({ task, onSave, onClose }) => {
     const [users, setUsers] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const { user } = useAuth();
+
 
     useEffect(() => {
         if (task) {
@@ -53,9 +56,12 @@ const TaskModal = ({ task, onSave, onClose }) => {
         } catch (error) {
             setError(error.message);
             setLoading(false);
+        } finally {
+            setLoading(false);
         }
     };
 
+    console.log(formData);
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -123,23 +129,26 @@ const TaskModal = ({ task, onSave, onClose }) => {
                                 <option value="Done">Done</option>
                             </select>
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="assignedTo">Assign To</label>
-                            <select
-                                id="assignedTo"
-                                name="assignedTo"
-                                value={formData.assignedTo}
-                                onChange={handleChange}
-                                className="form-select"
-                            >
-                                <option value="">Unassigned</option>
-                                {users.map(user => (
-                                    <option key={user._id} value={user._id}>
-                                        {user.username}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+                        {
+                            user?.isAdmin &&
+                            <div className="form-group">
+                                <label htmlFor="assignedTo">Assign To</label>
+                                <select
+                                    id="assignedTo"
+                                    name="assignedTo"
+                                    value={formData.assignedTo}
+                                    onChange={handleChange}
+                                    className="form-select"
+                                >
+                                    <option value="">Unassigned</option>
+                                    {users.map(user => (
+                                        <option key={user._id} value={user._id}>
+                                            {user.username}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        }
                     </div>
 
                     <div className="modal-actions">

@@ -1,7 +1,9 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import '../../styles/Board.css';
+import { useAuth } from '../../contexts/AuthContextUtil';
 
 const TaskCard = ({ task, provided, isDragging, onEdit, onDelete, onSmartAssign }) => {
+    const {user} = useAuth();
     const [isFlipped, setIsFlipped] = useState(false);
 
     const handleCardClick = (e) => {
@@ -58,15 +60,19 @@ const TaskCard = ({ task, provided, isDragging, onEdit, onDelete, onSmartAssign 
                     >
                         Edit
                     </button>
-                    <button
-                        className="task-action-button smart-assign-button"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onSmartAssign();
-                        }}
-                    >
-                        Smart Assign
-                    </button>
+                    {
+                        user.isAdmin
+                        &&
+                        <button
+                            className="task-action-button smart-assign-button"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onSmartAssign();
+                            }}
+                        >
+                            Smart Assign
+                        </button>
+                    }
                     <button
                         className="task-action-button delete-button"
                         onClick={(e) => {

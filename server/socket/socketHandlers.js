@@ -12,6 +12,7 @@ const socketHandlers = (io) => {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             socket.userId = decoded._id;
             socket.username = decoded.username;
+            socket.isAdmin = decoded.isAdmin;
             next();
         } catch (err) {
             next(new Error('Authentication error'));

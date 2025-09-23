@@ -67,29 +67,36 @@ const ActivityLog = ({ actions }) => {
         <div className="activity-log">
             <h3 className="activity-title">Activity Log</h3>
             <div className="activity-list" ref={logRef}>
-                {actions.length === 0 ? (
-                    <div className="no-activity">No activity yet</div>
-                ) : (
-                    actions.map((action, index) => (
-                        <div
-                            key={action._id}
-                            className={`activity-item ${index === 0 ? 'latest' : ''}`}
-                            style={{ animationDelay: `${index * 0.05}s` }}
-                        >
-                            <div className="activity-icon">
-                                {getActionIcon(action.actionType)}
-                            </div>
-                            <div className="activity-content">
-                                <div className="activity-description">
-                                    {getActionDescription(action)}
+                {
+                    Array.isArray(actions) && actions.length > 0
+                        ?
+
+                        actions?.length === 0 ? (
+                            <div className="no-activity">No activity yet</div>
+                        ) : (
+                            actions.map((action, index) => (
+                                <div
+                                    key={action._id}
+                                    className={`activity-item ${index === 0 ? 'latest' : ''}`}
+                                    style={{ animationDelay: `${index * 0.05}s` }}
+                                >
+                                    <div className="activity-icon">
+                                        {getActionIcon(action.actionType)}
+                                    </div>
+                                    <div className="activity-content">
+                                        <div className="activity-description">
+                                            {getActionDescription(action)}
+                                        </div>
+                                        <div className="activity-time">
+                                            {formatTime(action.timestamp)}
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="activity-time">
-                                    {formatTime(action.timestamp)}
-                                </div>
-                            </div>
-                        </div>
-                    ))
-                )}
+                            ))
+                        )
+                        :
+                        ""
+                }
             </div>
         </div>
     );
