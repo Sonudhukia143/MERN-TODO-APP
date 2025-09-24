@@ -23,14 +23,14 @@ jobs:
         with:
           context: ./server
           push: true
-          tags: sonudhukia143/backend:latest,sonudhukia143/backend:${{ github.sha }}
+          tags: sonudhukia143/backend,sonudhukia143/backend:${{ github.sha }}
 
       - name: Build and push frontend
         uses: docker/build-push-action@v4
         with:
           context: ./client
           push: true
-          tags: sonudhukia143/client:latest,sonudhukia143/client:${{ github.sha }}
+          tags: sonudhukia143/client,sonudhukia143/client:${{ github.sha }}
 
       - name: Trigger Render redeploy
         run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
