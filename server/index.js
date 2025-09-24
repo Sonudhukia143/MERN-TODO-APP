@@ -67,7 +67,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/actions', actionRoutes);
 app.get('/api/test', (req, res) => {
-    res.send('Server is running and this is the new test endpoint!');
+    res.send('Server is running and this is the new test endpoint is working and this is a new change!');
 });
 
 // Socket.IO
