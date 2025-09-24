@@ -17,7 +17,8 @@ const server = http.createServer(app);
 // CORS configuration - UPDATE THIS
 const allowedOrigins = [
     'http://localhost:5173',
-    process.env.CLIENT_URL
+    process.env.CLIENT_URL,
+    'https://client-e3ad.onrender.com'
 ].filter(Boolean); // Remove any undefined values
 
 const corsOptions = {
@@ -66,7 +67,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/actions', actionRoutes);
 app.get('/api/test', (req, res) => {
-    res.send('Server is running');
+    res.send('Server is running and this is the new test endpoint!');
 });
 
 // Socket.IO
